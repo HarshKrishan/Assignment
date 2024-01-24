@@ -11,11 +11,14 @@ export async function GET(req) {
 
   // const result = await connection
   //   .promise()
+  //   // .query(
+  //   //   `SELECT UID, Name, Score, Country, TimeStamp, RANK() OVER (ORDER BY Score DESC) AS UserRank FROM user;`  // this query was working on localhost but not on hostedDatabase
+  //   // )
   //   .query(
-  //     `SELECT UID, Name, Score, Country, TimeStamp, RANK() OVER (ORDER BY Score DESC) AS UserRank FROM user;`
+  //     `SELECT UID, Name, Score, Country, TimeStamp, (SELECT COUNT(*) + 1 FROM user u2 WHERE u2.Score > u1.Score) AS UserRank FROM user u1 ORDER BY Score DESC;`
   //   )
   //   .then(([data, fields]) => {
-  //     // console.log(data);
+  //     console.log(data);
   //     return data;
   //   })
   //   .catch((err) => {
@@ -25,14 +28,14 @@ export async function GET(req) {
   //       { status: 500 }
   //     );
   //   });
-
+  //   connection.release();
   // return NextResponse.json({ result: result }, { status: 200 });
 
 
 
   //code for connecting to vercel database
   const result =
-    await sql`SELECT UID, Name, Score, Country, TimeStamp, RANK() OVER (ORDER BY Score DESC) AS UserRank FROM user;`
+    await sql`SELECT UID, Name, Score, Country, TimeStamp, RANK() OVER (ORDER BY Score DESC) AS UserRank FROM userdata;`
     .then((data) => {
       // console.log(data);
       return data;
@@ -47,5 +50,5 @@ export async function GET(req) {
     });
 
   return NextResponse.json({ result: result }, { status: 200 });
-  
+
 }

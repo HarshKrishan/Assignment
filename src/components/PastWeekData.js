@@ -7,10 +7,13 @@ const PastWeekData = () => {
   const [country, setCountry] = useState("all");
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/api/getPastWeekData");
+      const response = await fetch(
+        "https://leader-board-pro.vercel.app/api/getPastWeekData"
+      );
       const result = await response.json();
-      setData(result.result);
-      setItems(result.result);
+      const { rows } = result.result;
+      setData(rows);
+      setItems(rows);
     };
     fetchData();
   }, []);
@@ -23,7 +26,7 @@ const PastWeekData = () => {
       setItems( data);
     }
     else{
-      setItems(data.filter((item) => item.Country === country));
+      setItems(data.filter((item) => item.country === country));
     }
   }
   const itemsPerPage = 25;
@@ -135,15 +138,15 @@ const PastWeekData = () => {
                 
                 currentItems.map((item) => (
               <tr
-                key={item.UID}
+                key={item.uid}
                 className="bg-gray-300 border-b border-blue-400"
               >
-                <td className="px-6 py-4">{item.Name}</td>
-                <td className="px-6 py-4">{item.UID}</td>
-                <td className="px-6 py-4">{item.Score}</td>
-                <td className="px-6 py-4">{item.Country}</td>
-                <td className="px-6 py-4">{item.TimeStamp}</td>
-                <td className="px-6 py-4">{item.UserRank}</td>
+                <td className="px-6 py-4">{item.name}</td>
+                <td className="px-6 py-4">{item.uid}</td>
+                <td className="px-6 py-4">{item.score}</td>
+                <td className="px-6 py-4">{item.country}</td>
+                <td className="px-6 py-4">{item.timestamp}</td>
+                <td className="px-6 py-4">{item.userrank}</td>
               </tr>
             ))}
           </tbody>

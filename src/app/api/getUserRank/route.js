@@ -1,6 +1,6 @@
 // import connectSql,{connection} from "../connectDb/route";  // uncomment this line to connect to mysql database locally
 import { NextResponse } from "next/server";
-
+import { sql } from "@vercel/postgres";
 export async function POST(req) {
   // console.log("entering getUserRank route");
 
@@ -35,7 +35,7 @@ export async function POST(req) {
 
   //code for connecting to vercel database
   const result =
-    await sql`SELECT UID, Name, Score, Country, TimeStamp, UserRank FROM ( SELECT UID, Name, Score, Country, TimeStamp, RANK() OVER (ORDER BY Score DESC) AS UserRank FROM assignment.user) AS temp WHERE UID = ${user_id};`
+    await sql`SELECT UID, Name, Score, Country, TimeStamp, UserRank FROM ( SELECT UID, Name, Score, Country, TimeStamp, RANK() OVER (ORDER BY Score DESC) AS UserRank FROM userdata) AS temp WHERE UID = ${user_id};`
     .then((data) => {
       // console.log(data);
       return data;

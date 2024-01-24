@@ -7,21 +7,25 @@ const SearchUser = () => {
     const [showDelete, setShowDelete] = useState(false);
 
     function handleClick() {
-        const res = fetch('/api/getUserRank', {
-            method: 'POST',
+        const res = fetch(
+          "https://leader-board-pro.vercel.app/api/getUserRank",
+          {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
-            body: JSON.stringify({user_id: userId}),
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            if(data.result.length === 0) {
-                alert('No user found with this ID');
-                return;
+            body: JSON.stringify({ user_id: userId }),
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            const { rows } = data.result;
+            if (rows.length === 0) {
+              alert("No user found with this ID");
+              return;
             }
-            setUserData(data.result[0]);
-        })
+            setUserData(rows[0]);
+          });
     
         setShowDelete(true);
 
@@ -65,13 +69,13 @@ const SearchUser = () => {
         <div className="absolute z-10 right-20 ">
           <div className="max-w-sm rounded overflow-hidden shadow-lg my-4 bg-white">
             <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">{userData.Name}</div>
-              <p className="text-gray-700 text-base">Score: {userData.Score}</p>
+              <div className="font-bold text-xl mb-2">{userData.name}</div>
+              <p className="text-gray-700 text-base">Score: {userData.score}</p>
               <p className="text-gray-700 text-base">
-                Country: {userData.Country}
+                Country: {userData.country}
               </p>
               <p className="text-gray-700 text-base">
-                Rank: {userData.UserRank}
+                Rank: {userData.userRank}
               </p>
             </div>
           </div>

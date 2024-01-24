@@ -31,19 +31,18 @@ export async function GET(req) {
 
   //code for connecting to vercel database
   const result =
-    await sql`SELECT UID, Name, Score, Country, TimeStamp, RANK() OVER (ORDER BY Score DESC) AS UserRank FROM user WHERE YEARWEEK(TimeStamp) = YEARWEEK(CURDATE()) - 1  ORDER BY UserRank LIMIT 200;`
-    .then((data) => {
-      // console.log(data);
-      return data;
-    }
-    )
-    .catch((err) => {
-      console.log(err);
-      return NextResponse.json(
-        { result: "Error getting data" },
-        { status: 500 }
-      );
-    });
+    await sql`SELECT UID, Name, Score, Country, TimeStamp, RANK() OVER (ORDER BY Score DESC) AS UserRank FROM (SELECT UID, Name, Score, Country, TimeStamp FROM "userdata" WHERE EXTRACT(YEAR FROM TimeStamp) = EXTRACT(YEAR FROM CURRENT_DATE) AND EXTRACT(WEEK FROM TimeStamp) = EXTRACT(WEEK FROM CURRENT_DATE) - 1 ORDER BY Score DESC LIMIT 200) AS subquery;`
+      .then((data) => {
+        // console.log(data);
+        return data;
+      })
+      .catch((err) => {
+        console.log(err);
+        return NextResponse.json(
+          { result: "Error getting data" },
+          { status: 500 }
+        );
+      });
 
   return NextResponse.json({ result: result }, { status: 200 });
 }

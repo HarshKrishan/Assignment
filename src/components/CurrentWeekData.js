@@ -5,9 +5,13 @@ const CurrentWeekData = () => {
     const [items, setItems] = useState([]);
     useEffect(() => {
       const fetchData = async () => {
-        const response = await fetch("/api/getCurrentWeekData");
+        const response = await fetch(
+          "https://leader-board-pro.vercel.app/api/getCurrentWeekData"
+        );
         const result = await response.json();
-        setItems(result.result);
+
+        const { rows } = result.result;
+        setItems(rows);
       };
       fetchData();
     }, []);
@@ -54,15 +58,15 @@ const CurrentWeekData = () => {
           <tbody className="text-center">
             {currentItems.map((item) => (
               <tr
-                key={item.UID}
+                key={item.uid}
                 className="bg-gray-300 border-b border-blue-400"
               >
-                <td className="px-6 py-4">{item.Name}</td>
-                <td className="px-6 py-4">{item.UID}</td>
-                <td className="px-6 py-4">{item.Score}</td>
-                <td className="px-6 py-4">{item.Country}</td>
-                <td className="px-6 py-4">{item.TimeStamp}</td>
-                <td className="px-6 py-4">{item.UserRank}</td>
+                <td className="px-6 py-4">{item.name}</td>
+                <td className="px-6 py-4">{item.uid}</td>
+                <td className="px-6 py-4">{item.score}</td>
+                <td className="px-6 py-4">{item.country}</td>
+                <td className="px-6 py-4">{item.timestamp}</td>
+                <td className="px-6 py-4">{item.userrank}</td>
               </tr>
             ))}
           </tbody>

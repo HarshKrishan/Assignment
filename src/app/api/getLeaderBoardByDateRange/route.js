@@ -31,7 +31,7 @@ export async function POST(req) {
 
   //code for connecting to vercel database
   const result =
-    await sql`SELECT UID, Name, Score, Country, TimeStamp, RANK() OVER (ORDER BY Score DESC) AS UserRank FROM user WHERE TimeStamp BETWEEN ${start_date} AND ${end_date} AND Country = ${country} ORDER BY UserRank LIMIT 200;`
+    await sql`SELECT UID, Name, Score, Country, TimeStamp, RANK() OVER (ORDER BY Score DESC) AS UserRank FROM userdata WHERE TimeStamp BETWEEN ${start_date} AND ${end_date} AND Country = ${country} ORDER BY UserRank LIMIT 200;`
     .then((data) => {
       // console.log(data);
       return data;
