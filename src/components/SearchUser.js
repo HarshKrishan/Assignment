@@ -75,7 +75,7 @@ const SearchUser = () => {
                 Country: {userData.country}
               </p>
               <p className="text-gray-700 text-base">
-                Rank: {userData.userRank}
+                Rank: {userData.userrank}
               </p>
             </div>
           </div>
